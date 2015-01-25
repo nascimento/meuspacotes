@@ -1,0 +1,29 @@
+<br>
+<%= link_to 'New Package', new_package_path, :class => "btn btn-warning" %>
+
+<% @packages.each do |package| %>
+  <div class="row">
+    <div class="col-xs-12 col-md-12"><h4><%= package.code %> - <%= package.title %> <small><%= link_to 'Destroy', package, method: :delete, data: { confirm: 'Are you sure?' } %></small></h4></div>
+  </div>
+  <% if @rastreios[package.code] %>
+  <% @rastreios[package.code].each do |rastreio| %>
+    <div class="row">
+      <% 
+      case rastreio[:descricao]
+      when "Postado"
+        color_label = 'label label-info'
+      when "Entregue"
+        color_label = 'label label-success'
+      else
+        color_label = 'label label-default'
+      end
+      %>
+
+      <div class="col-xs-1 col-md-1"><div class="<%= color_label %>"><%= rastreio[:descricao] %></div></div>
+      <div class="col-xs-2 col-md-2"><%= rastreio[:data].strftime("%m/%b/%Y - %H:%M") %></div>
+      <div class="col-xs-5 col-md-5"><%= rastreio[:detalhes] %></div>
+      <div class="col-xs-4 col-md-4"><%= rastreio[:local] %></div>
+    </div>
+  <% end %>
+  <% end %>
+<% end %>
